@@ -1,0 +1,67 @@
+<html>
+<head>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+    
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+        <!-- Latest compiled JavaScript -->
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            function validDigits(num){
+                var re = /^[01]+$/;
+
+                if((num.length <= 8 && re.test(num))){
+                    return true;
+                }
+                return false;
+            }
+          
+            function converBin2Dec(num){
+                var num = document.getElementById("txt_binNum").value;    
+                const decimal = parseInt(num, 2);
+                document.getElementById('valorResposta').innerHTML = decimal;
+            }
+
+            function convertBin(){
+                var num = document.getElementById("txt_binNum").value;    
+                if(validDigits(num)){
+                    converBin2Dec(num);
+                }else{
+                    alert("Valor binario invalido!! (deve conter no maximo 8 caracteres e ser compostoa apenas de 0 e 1).");
+                    document.getElementById("txt_binNum").select();
+                }
+            }
+        </script>
+    </head>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Projeto - Bin2Dec </h1>
+        <p>Pagina para pratica de programação, proposta para treino de desenvolvimento.</p>
+        <p>Site com todas ideias de proposta de treino em <a href="https://github.com/florinpop17/app-ideas" target="_blank">florinpop17/app-ideas</a></p>    
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Din2Dec</h3>
+                <p>Idéia desta pagina e transformar uma entrada de dados binaria e mostrar seu respectivo valor Decimal.</p>
+                <p></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Valor Binario:</h3>
+                <input type="text" id="txt_binNum" size="10" maxlength="8"/>
+                <input type="button" onclick="convertBin()" value="Converter para Decimal" />
+            </div>
+            <div class="col-sm-6">
+                <h3>Transformado em Decimal:</h3>
+                <p id="valorResposta"></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
