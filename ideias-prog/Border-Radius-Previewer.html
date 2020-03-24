@@ -10,37 +10,75 @@
         <!-- Latest compiled JavaScript -->
         <script src="../js/bootstrap.min.js"></script>
         <script>
-            
+
+            var textToCopy = "{ -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -webkit-border-bottom-right-radius: 0px; -webkit-border-bottom-left-radius: 0px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; -moz-border-radius-bottomright: 0px; -moz-border-radius-bottomleft: 0px; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; }";
+
             function setStyle(){
                 var se = document.getElementById("se").value.length > 0? document.getElementById("se").value : 0; 
                 var sd = document.getElementById("sd").value.length > 0? document.getElementById("sd").value : 0; 
                 var ie = document.getElementById("ie").value.length > 0? document.getElementById("ie").value : 0; 
                 var id = document.getElementById("id").value.length > 0? document.getElementById("id").value : 0; 
+                
+                if(se > 200){
+                    se = 200;
+                    document.getElementById("se").value = 200;
+                }
+                
+                if(sd > 200){
+                    sd = 200;
+                    document.getElementById("sd").value = 200;
+                }
+
+                if(id > 200){
+                    id = 200;
+                    document.getElementById("id").value = 200;
+                }
+
+                if(ie > 200){
+                    ie = 200;
+                    document.getElementById("ie").value = 200;
+                }
                 var divresp = document.getElementById("divresp");
-                var divText = "";
-                var space = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;"
-                divText = " <br/>{ "
-                //divresp.style.borderRadius = ""+se+"px "+sd+"px "+id+"px "+ie+"px";
+                var divrcss = document.getElementById("divcss");
+                                
+                var space = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;";
+                var divText = " <br/>{ ";
+                textToCopy = "{";
+                
                 divresp.style.webkitBorderBottomLeftRadius = ie+"px";
                 divresp.style.webkitBorderBottomRightRadius =id+"px";
                 divresp.style.webkitBorderTopLeftRadius = se+"px";
                 divresp.style.webkitBorderTopRightRadius =sd+"px";
                 divText += space+" -webkit-border-top-left-radius: "+se+"px; "+space+" -webkit-border-top-right-radius: "+sd+"px;"+space+"-webkit-border-bottom-right-radius: "+id+"px;"+space+"-webkit-border-bottom-left-radius: "+ie+"px;";
-
+                textToCopy += " -webkit-border-top-left-radius: "+se+"px; -webkit-border-top-right-radius: "+sd+"px; -webkit-border-bottom-right-radius: "+id+"px; -webkit-border-bottom-left-radius: "+ie+"px;";
+                
                 divresp.style.MozBorderRadiusTopleft = se+"px";
                 divresp.style.MozBorderRadiusTopRight = sd+"px";
                 divresp.style.MozBorderRadiusBottonleft = ie+"px";
                 divresp.style.MozBorderRadiusBottonright = id+"px"; 
                 divText += space+" -moz-border-radius-topleft: "+se+"px; "+space+" -moz-border-radius-topright: "+sd+"px; "+space+" -moz-border-radius-bottomright: "+ie+"px; "+space+"-moz-border-radius-bottomleft: "+id+"px;"; 
+                textToCopy += " -moz-border-radius-topleft: "+se+"px; -moz-border-radius-topright: "+sd+"px; -moz-border-radius-bottomright: "+ie+"px; -moz-border-radius-bottomleft: "+id+"px;"; 
 
                 divresp.style.borderTopLeftRadius = se+"px";
                 divresp.style.borderTopRightRadius = sd+"px";
                 divresp.style.borderBottomLeftRadius = ie+"px";
                 divresp.style.borderBottomRightRadius = id+"px";
+                divresp.style.boxSizing = "content-box"
                 divText += space+" border-top-left-radius: "+se+"px; "+space+" border-top-right-radius: "+sd+"px; "+space+" border-bottom-right-radius: "+id+"px; "+space+" border-bottom-left-radius: "+ie+"px; ";
-                
-                divresp.innerHTML = divText+"<br> }";
+                textToCopy += " border-top-left-radius: "+se+"px; border-top-right-radius: "+sd+"px; border-bottom-right-radius: "+id+"px; border-bottom-left-radius: "+ie+"px; }";
+              
+                divrcss.innerHTML = divText+"<br> }";
 
+            }
+
+            function copiarCss(){
+                const el = document.createElement('textarea');
+                el.value = textToCopy;
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);  
+                alert("Copied the text: " + textToCopy);  
             }
 
             function pressKey(event){
@@ -53,6 +91,31 @@
     </head>
 </head>
 <body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="#">Portifolio de projetos e estudo.</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Border Radius Previewer <span class="sr-only">(atual)</span></a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="../index.html">Home </span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../tec-radar.html">Tec Radar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Projetos e estudo</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+    </header>
     <div class="jumbotron text-center">
         <h1>Projeto - Border Radius Previewer </h1>
         <p>Pagina para pratica de programação, proposta para treino de desenvolvimento.</p>
@@ -60,10 +123,10 @@
         <p>Visualizador de borda, </p>
     </div>
     <div class="container">
-        <div class="row">
+        <div class="row m-5">
             <div class="col-sm-12">
                 <h3>Defina o raio das bordas:</h3>
-                <div class="row">
+                <div class="row  ">
                     <div class="col-sm-2">
                         <div class="float-right">
                             <input type="text" value="0" id="se" size="2" onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
@@ -75,21 +138,38 @@
                         <input type="text" value="0"  id="sd" size="2"  onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row  ">
                     <div class="col-sm-2">
                     </div>
                     <div class="col-sm-8">
                         <div style="border: 2px solid black;padding:20px;" id="divresp" >
-                            <div style="border: 2px solid black; " id="divcss"></div>
-                            <div style="border: 2px solid black; " id="copy">
-                                <input type="button" value="Copiar CSS" onclick="copiarCss()">
+                            <div style="border: 1px solid black; margin: 50px;">
+                                <div  id="divcss">
+                                    { 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; -webkit-border-top-left-radius: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; -webkit-border-top-right-radius: 200px;
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-webkit-border-bottom-right-radius: 200px;
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-webkit-border-bottom-left-radius: 200px;
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; -moz-border-radius-topleft: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; -moz-border-radius-topright: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; -moz-border-radius-bottomright: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp;-moz-border-radius-bottomleft: 200px;
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; border-top-left-radius: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; border-top-right-radius: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; border-bottom-right-radius: 200px; 
+                                        <br>&nbsp;&nbsp;&nbsp;&nbsp; border-bottom-left-radius: 200px; <br> 
+                                    }
+                                </div>
+                                <div  id="copy">
+                                    <input type="button" value="Copiar CSS" onclick="copiarCss()" />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-2">
                     </div>
                 </div>
-                <div class="row">
+                <div class="row  ">
                     <div class="col-sm-2">
                         <div class="float-right">
                             <input type="text" value="0" id="ie" size="2"  onkeyup="setStyle()" onkeypress="return pressKey(event)" />
@@ -101,8 +181,20 @@
                         <input type="text" value="0" id="id" size="2" onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
                     </div>
                 </div>
+                <div class="row  m-5">
+                    <div class="col-sm-12">
+                        <p>Para entendimento, limitei o radius por 200px para não sobrepor o conteudo da div interna que contem os dados do css.</p>
+                        <p>O ideal é validar o conteudo para a linha da div não atrapalhar sua visualização. Caso tenha duvidas me mande um email ficarei feliz em poder ajudar.</p>    
+                    </div>
+                </div>    
             </div>
         </div>
     </div>
+    <footer class="footer">
+        <div class="container">
+          <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
+        </div>
+    </footer>
+  
 </body>
 </html>
