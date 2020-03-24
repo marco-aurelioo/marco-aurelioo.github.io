@@ -1,0 +1,108 @@
+<html>
+<head>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+    
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+        <!-- Latest compiled JavaScript -->
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            
+            function setStyle(){
+                var se = document.getElementById("se").value.length > 0? document.getElementById("se").value : 0; 
+                var sd = document.getElementById("sd").value.length > 0? document.getElementById("sd").value : 0; 
+                var ie = document.getElementById("ie").value.length > 0? document.getElementById("ie").value : 0; 
+                var id = document.getElementById("id").value.length > 0? document.getElementById("id").value : 0; 
+                var divresp = document.getElementById("divresp");
+                var divText = "";
+                var space = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;"
+                divText = " <br/>{ "
+                //divresp.style.borderRadius = ""+se+"px "+sd+"px "+id+"px "+ie+"px";
+                divresp.style.webkitBorderBottomLeftRadius = ie+"px";
+                divresp.style.webkitBorderBottomRightRadius =id+"px";
+                divresp.style.webkitBorderTopLeftRadius = se+"px";
+                divresp.style.webkitBorderTopRightRadius =sd+"px";
+                divText += space+" -webkit-border-top-left-radius: "+se+"px; "+space+" -webkit-border-top-right-radius: "+sd+"px;"+space+"-webkit-border-bottom-right-radius: "+id+"px;"+space+"-webkit-border-bottom-left-radius: "+ie+"px;";
+
+                divresp.style.MozBorderRadiusTopleft = se+"px";
+                divresp.style.MozBorderRadiusTopRight = sd+"px";
+                divresp.style.MozBorderRadiusBottonleft = ie+"px";
+                divresp.style.MozBorderRadiusBottonright = id+"px"; 
+                divText += space+" -moz-border-radius-topleft: "+se+"px; "+space+" -moz-border-radius-topright: "+sd+"px; "+space+" -moz-border-radius-bottomright: "+ie+"px; "+space+"-moz-border-radius-bottomleft: "+id+"px;"; 
+
+                divresp.style.borderTopLeftRadius = se+"px";
+                divresp.style.borderTopRightRadius = sd+"px";
+                divresp.style.borderBottomLeftRadius = ie+"px";
+                divresp.style.borderBottomRightRadius = id+"px";
+                divText += space+" border-top-left-radius: "+se+"px; "+space+" border-top-right-radius: "+sd+"px; "+space+" border-bottom-right-radius: "+id+"px; "+space+" border-bottom-left-radius: "+ie+"px; ";
+                
+                divresp.innerHTML = divText+"<br> }";
+
+            }
+
+            function pressKey(event){
+                var keyCode = ('which' in event) ? event.which : event.keyCode;
+                isNumeric = (keyCode >= 48 && keyCode <= 57 );
+                return isNumeric;
+            }
+
+        </script>
+    </head>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Projeto - Border Radius Previewer </h1>
+        <p>Pagina para pratica de programação, proposta para treino de desenvolvimento.</p>
+        <p>Site com todas ideias de proposta de treino em <a href="https://github.com/florinpop17/app-ideas" target="_blank">florinpop17/app-ideas</a></p>
+        <p>Visualizador de borda, </p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Defina o raio das bordas:</h3>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="float-right">
+                            <input type="text" value="0" id="se" size="2" onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-2 float-left">
+                        <input type="text" value="0"  id="sd" size="2"  onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <div style="border: 2px solid black;padding:20px;" id="divresp" >
+                            <div style="border: 2px solid black; " id="divcss"></div>
+                            <div style="border: 2px solid black; " id="copy">
+                                <input type="button" value="Copiar CSS" onclick="copiarCss()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="float-right">
+                            <input type="text" value="0" id="ie" size="2"  onkeyup="setStyle()" onkeypress="return pressKey(event)" />
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" value="0" id="id" size="2" onkeyup="setStyle()" onkeypress="return pressKey(event)"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

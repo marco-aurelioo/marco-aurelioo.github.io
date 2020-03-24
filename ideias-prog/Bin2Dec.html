@@ -30,8 +30,9 @@
                 if(validDigits(num)){
                     converBin2Dec(num);
                 }else{
-                    alert("Valor binario invalido!! (deve conter no maximo 8 caracteres e ser compostoa apenas de 0 e 1).");
+                    alert("Valor binario invalido!! (deve conter no maximo 8 caracteres e ser composto apenas de 0 e 1).");
                     document.getElementById("txt_binNum").select();
+                    document.getElementById('valorResposta').innerHTML = "Erro ao converter: "+num ;
                 }
             }
         </script>
@@ -58,7 +59,7 @@
                 <input type="button" onclick="convertBin()" value="Converter para Decimal" />
             </div>
             <div class="col-sm-6">
-                <h3>Transformado em Decimal:</h3>
+                <h3>Valor Decimal:</h3>
                 <p id="valorResposta"></p>
             </div>
         </div>
