@@ -170,11 +170,17 @@
             }
 
             function  dividir(a,b){
-                if(b == "0"){
-                    document.getElementById("display").value = 0;
-                    document.getElementById("resposta").innerHTML = "Err"
-                }                
-                return Number(a)/Number(b)
+                try{
+                    if(b == 0){
+                        throw "Err";
+                    }
+                    var resp = Number(a)/Number(b)
+                    return Number(resp);
+                } catch(err){
+                    limpa();
+                    document.getElementById("operacao").innerHTML = "Erro div/0";
+                    throw "Err";
+                }
             }
 
             function apagarUltimo(){
@@ -272,7 +278,6 @@
                             <input type="text" id="display" style="width: 100%;padding: 20px;" onkeypress="return validateCharPressed(event)" />
                             <div>
                                 <p id="operacao"></p>
-                                <p id="resposta" style="font-size: 25px;" ></p>
                             </div>
                         </div>            
                     </div>
@@ -368,7 +373,7 @@
             </div>
             <div style="width: 400px; margin-top: 25px;" >
                 <p>Exercicio de desenvolvimento front-end, calculadora simples.</p>
-                <p>Otimo exercio para validar comportamento de tela e controle de status, parece simples porem é um bom exercicio.</p>
+                <p>Otimo exercio para validar comportamento de tela e controle de status, parece simples porem é um bom exercicio.</p>  
             </div>
        </div>
     </div>
