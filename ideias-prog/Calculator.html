@@ -9,9 +9,226 @@
     
         <!-- Latest compiled JavaScript -->
         <script src="../js/bootstrap.min.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
         <script>
-           
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-161848228-1');
         </script>
+        <script>
+            
+           
+            function validateCharPressed(event){
+                var keyCode = ('which' in event) ? event.which : event.keyCode;                
+                var ok = (keyCode >= 48 && keyCode <= 57 || keyCode == 46);
+                console.log(keyCode);
+                if(ok){
+                    var _value = document.getElementById("display").value;
+                    if (_value.indexOf('.') != -1 && keyCode == 46) {
+                        return false;
+                    }
+                    return true;
+                }else{
+                    if(keyCode == 8){
+                        mouseClickButton("voltar");
+                    }
+                    if(keyCode == 13){
+                        mouseClickButton("=");
+                    }
+                    if(keyCode == 47){
+                        mouseClickButton("/");
+                    }
+                    if(keyCode == 42){
+                        mouseClickButton("*");
+                    }
+                    if(keyCode == 45){
+                        mouseClickButton("-");
+                    }
+                    if(keyCode == 43){
+                        mouseClickButton("+");
+                    }
+                    return false;
+                }                
+            }
+
+            var valor1 = "";
+            var operacao = "";
+            var valor2 = "";
+            var operacaoAnterior = "I";
+            var opercaoSelecionada = "";
+
+            function mouseClickButton(valor){
+               
+                if(isNumeric(valor)){
+                    adicionarValorDisplay(valor);
+                    operacaoAnterior = "N";
+                }else{
+                    switch (valor) {
+                        case "voltar":
+                            operacaoAnterior = "N";
+                            apagarUltimo();
+                            break;
+                        case "limpa":
+                            operacaoAnterior = "N";
+                            limpa();
+                            break;
+                        case "+/-":
+                            operacaoAnterior = "N";
+                            alterarSinalDisplay();
+                            break;
+                        case "=":
+                            
+                            if(valor1 != "" && opercaoSelecionada != "" && document.getElementById("display").value != ""){
+                                var resposta = operacoes(opercaoSelecionada,valor1,document.getElementById("display").value);
+                                document.getElementById("operacao").innerHTML = "resp:"+valor1+opercaoSelecionada+document.getElementById("display").value+"="+resposta;
+                                opercaoSelecionada = "";
+                                valor1 = resposta;
+                                document.getElementById("display").value = resposta;
+                                operacaoAnterior = "O";
+                            }
+                                
+                            break;
+                        default:
+                            
+                                if(valor1 != "" && opercaoSelecionada != "" && document.getElementById("display").value != ""){
+                                    var resposta = operacoes(opercaoSelecionada,valor1,document.getElementById("display").value);
+                                    opercaoSelecionada = "";
+                                    valor1 = resposta;
+                                    document.getElementById("display").value = resposta;
+                                    document.getElementById("operacao").innerHTML = valor1 + valor;
+                                    operacaoAnterior = "O";
+                                }else{
+                                    if(document.getElementById("display").value != ""){
+                                        valor1 = document.getElementById("display").value;
+                                        document.getElementById("display").value = "";
+                                        opercaoSelecionada = valor;
+                                        document.getElementById("operacao").innerHTML = valor1 + valor;
+                                        operacaoAnterior = "O";
+                                    }
+                                }
+                            
+                            break;
+                    }
+                    
+                }
+            }
+
+
+            function adicionarValorDisplay(valor){
+                if(valor == '.'){
+                    if(!document.getElementById("display").value.includes('.')){
+                        document.getElementById("display").value = document.getElementById("display").value + valor;
+                    }
+                }else{
+                    document.getElementById("display").value = document.getElementById("display").value + valor;
+                }                
+            }   
+
+            function limpa(){
+                valor1 = "";
+                document.getElementById("display").value = "";
+                opercaoSelecionada = "";
+                operacaoAnterior = "";
+                document.getElementById("operacao").innerHTML = "";
+
+            }
+
+
+            function operacoes(valor,a,b){
+                var resposta = "";
+                switch (valor) {
+                    case "+":
+                        resposta = somar(a,b);
+                        break;
+                    case "-":
+                        resposta = subtrair(a,b);
+                        break;
+                    case "*":
+                        resposta = multiplicar(a,b);
+                        break;
+                    case "/":
+                        resposta = dividir(a,b);
+                        break;
+                    default:
+                        break;
+                }
+                return resposta;
+            }
+
+            function somar(a,b){
+                 return Number(a)+Number(b);                           
+            }
+
+            function subtrair(a,b){
+                return Number(a)-Number(b);
+            }
+
+            function multiplicar(a,b){
+                return Number(a)*Number(b);
+            }
+
+            function  dividir(a,b){
+                if(b == "0"){
+                    document.getElementById("display").value = 0;
+                    document.getElementById("resposta").innerHTML = "Err"
+                }                
+                return Number(a)/Number(b)
+            }
+
+            function apagarUltimo(){
+                document.getElementById("display").value = document.getElementById("display").value.substr(0,document.getElementById("display").value.length-1);
+            }
+
+            function alterarSinalDisplay(){
+                var valorDisplay = document.getElementById("display").value;
+                var valorDisplay = Number(valorDisplay) * -1;
+                document.getElementById("display").value = valorDisplay;
+            }
+            
+            function isNumeric(num){
+                var re = /^[\d.]+$/;
+                if(re.test(num)){
+                    return true;
+                }
+                return false;
+            }
+
+        </script>
+        <style>
+            .bordas{ 
+                margin: 10px;
+                border: solid 2px black;
+                padding: 10px;
+                -webkit-border-top-left-radius: 20px;
+                -webkit-border-top-right-radius: 20px; 
+                -webkit-border-bottom-right-radius: 20px; 
+                -webkit-border-bottom-left-radius: 20px; 
+                -moz-border-radius-topleft: 20px; 
+                -moz-border-radius-topright: 20px; 
+                -moz-border-radius-bottomright: 20px; 
+                -moz-border-radius-bottomleft: 20px; 
+                border-top-left-radius: 20px; 
+                border-top-right-radius: 20px; 
+                border-bottom-right-radius: 20px; 
+                border-bottom-left-radius: 20px; 
+            }
+            .cssTeclas{
+                font-size:25px;
+                font-family: Arial, Helvetica, sans-serif;
+                color:darkgreen;
+                font-weight: bolder;
+                min-width: 50px;
+            }
+            .cssDisplay{
+                font-size:15px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-weight: bolder;
+                font-stretch: extra-expanded;
+                color: black;
+            }
+        </style>
     </head>
 </head>
 <body>
@@ -48,70 +265,111 @@
     </div>
     <div class="container">
        <div class="row m-5">
-        <div class="col-sm-12" >
-           <div class="row"> 
-               <div class="col-sm-12" >
-                   <input type="text" id="display" />
-               </div>            
+           <div style="height: 500px; width: 600px;" >
+                <div class="col-sm-12" >
+                    <div class="row bordas cssDisplay" > 
+                        <div class="col-sm-12 " >
+                            <input type="text" id="display" style="width: 100%;padding: 20px;" onkeypress="return validateCharPressed(event)" />
+                            <div>
+                                <p id="operacao"></p>
+                                <p id="resposta" style="font-size: 25px;" ></p>
+                            </div>
+                        </div>            
+                    </div>
+                    <div class="row bordas cssTeclas"> 
+                        <div class="col-sm-12 " >
+                            <div class="row">
+                                <div class="col-sm-9" >
+                                    <div class="row"> 
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(7)">
+                                            7        
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(8)">
+                                            8
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(9)">
+                                            9
+                                        </div>          
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(4)">
+                                            4
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(5)">
+                                            5
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(6)">
+                                            6
+                                        </div>          
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(1)">
+                                            1
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(2)">
+                                            2
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(3)">
+                                            3
+                                        </div>          
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton(0)">
+                                            0
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton('.')">
+                                            .
+                                        </div>
+                                        <div class="col-sm-3 d-flex justify-content-center bordas" onclick="mouseClickButton('=')" >
+                                            =
+                                        </div>          
+                                    </div>
+                                </div>
+                        
+                                <div class="col-sm-3 " >                           
+                                    <div class="row"> 
+                                        <div class="col-sm-4 d-flex justify-content-center bordas" onclick="mouseClickButton('/')" >
+                                            /        
+                                        </div>
+                                        <div class="col-sm-4 d-flex justify-content-center bordas " onclick="mouseClickButton('voltar')" >
+                                            <img src="../img/voltar.png" />
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-4 d-flex justify-content-center bordas" onclick="mouseClickButton('*')">
+                                            *
+                                        </div>
+                                        <div class="col-sm-4 d-flex justify-content-center bordas"  onclick="mouseClickButton('limpa')" >
+                                            <img src="../img/borracha.svg" width="30" height="30"/>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-4 d-flex justify-content-center bordas" onclick="mouseClickButton('+')">
+                                            +
+                                        </div>
+                                        <div class="col-sm-4 d-flex justify-content-center bordas"  onclick="mouseClickButton('+/-')" >
+                                            <img src="../img/iniverteSinal.png" width="30" height="30"/>
+                                        </div>
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-sm-4 d-flex justify-content-center bordas" onclick="mouseClickButton('-')">
+                                            -
+                                        </div>
+                                        <div class="col-sm-4 d-flex justify-content-center bordas" >
+                                            ?
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row"> 
-                <div class="col-sm-3" >
-                    7        
-                </div>
-                <div class="col-sm-3" >
-                    8
-                </div>
-                <div class="col-sm-3" >
-                    9
-                </div>          
-                <div class="col-sm-3" >
-                    *
-                </div>  
+            <div style="width: 400px; margin-top: 25px;" >
+                <p>Exercicio de desenvolvimento front-end, calculadora simples.</p>
+                <p>Otimo exercio para validar comportamento de tela e controle de status, parece simples porem é um bom exercicio.</p>
             </div>
-            <div class="row"> 
-                <div class="col-sm-3" >
-                    4
-                </div>
-                <div class="col-sm-3" >
-                    5
-                </div>
-                <div class="col-sm-3" >
-                    6
-                </div>          
-                <div class="col-sm-3" >
-                    /
-                </div>  
-            </div>
-             
-            <div class="row"> 
-                <div class="col-sm-3" >
-                    1
-                </div>
-                <div class="col-sm-3" >
-                    2
-                </div>
-                <div class="col-sm-3" >
-                    3
-                </div>          
-                <div class="col-sm-3" >
-                    +
-                </div>  
-            </div>
-            <div class="row"> 
-                <div class="col-sm-3" >
-                    0
-                </div>
-                <div class="col-sm-3" >
-                    ,
-                </div>
-                <div class="col-sm-3" >
-                    =
-                </div>          
-                <div class="col-sm-3" >
-                    -
-                </div>  
-            </div>
-        </div>
        </div>
     </div>
     <footer class="footer">
