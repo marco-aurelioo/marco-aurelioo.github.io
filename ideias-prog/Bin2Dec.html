@@ -26,6 +26,15 @@
                 }
                 return false;
             }
+
+
+            function validateCharPressed(event){
+                var keyCode = ('which' in event) ? event.which : event.keyCode;                
+                var ok = (keyCode >= 48 && keyCode <= 49);
+                console.log(keyCode+" "+ok)
+                return ok;
+                                    
+            }
           
             function converBin2Dec(num){
                 var num = document.getElementById("txt_binNum").value;    
@@ -89,7 +98,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <h3>Valor Binario:</h3>
-                <input type="text" id="txt_binNum" size="10" maxlength="8"/>
+                <input type="text" id="txt_binNum" size="10" maxlength="8" onkeypress="return validateCharPressed(event)"/>
                 <input type="button" onclick="convertBin()" value="Converter para Decimal" />
             </div>
             <div class="col-sm-6">

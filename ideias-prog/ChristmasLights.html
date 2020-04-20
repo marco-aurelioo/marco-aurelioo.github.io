@@ -1,0 +1,150 @@
+<html>
+<head>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+    
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+        <!-- Latest compiled JavaScript -->
+        <script src="../js/bootstrap.min.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-161848228-1');
+        </script>
+        <script>
+          
+          var intervalo;
+
+          function liga(){
+            var timer = 10;
+            //apagatudo
+            for(var i  = 1; i < 8; i++){
+              document.getElementById("light"+i).style.opacity = 0;
+            }            
+            pisca("1",timer);
+          }
+
+         function pisca(id,timer){
+              var opc = 0;
+              intervalo = setInterval(function(){
+                document.getElementById("light"+id).style.opacity = opc/100;
+                document.getElementById("light"+id).style.filter = "alpha(opacity="+opc+")";
+                opc += 2;
+                if(opc > 100){
+                  opc = 0;
+                  document.getElementById("light"+id).style.opacity = 0;
+                  desliga();
+                  var nid = Number(id)+1;
+                  if(nid == 8){
+                    nid = 1;
+                  }
+                  pisca(nid,timer);
+                }
+              },timer);
+         }
+
+        function desliga(){
+            clearInterval(intervalo);
+        }
+
+        </script>
+        <style>
+
+          .light { 
+            -webkit-border-top-left-radius: 50px;
+            -webkit-border-top-right-radius: 50px;
+            -webkit-border-bottom-right-radius: 50px;
+            -webkit-border-bottom-left-radius: 50px;
+            -moz-border-radius-topleft: 50px;
+            -moz-border-radius-topright: 50px;
+            -moz-border-radius-bottomright: 50px;
+            -moz-border-radius-bottomleft: 50px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            border-bottom-left-radius: 50px;
+            border: solid 1px black;
+            width: 50px;
+            height: 50px; 
+            padding: 13px 20px;
+            margin: 5px;
+            background-color: red;
+            color: white;
+            font-weight: bolder;
+          }
+
+        </style>
+    </head>
+</head>
+<body>
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+          <a class="navbar-brand" href="#">Portifolio de projetos e estudo.</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">ChristmasLights <span class="sr-only">(atual)</span></a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="../index.html">Home </span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../tec-radar.html">Tec Radar</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">Projetos e estudo</a>
+              </li>
+            </ul>           
+          </div>
+        </nav>
+    </header>
+    <div class="jumbotron text-center">
+        <h1>Projeto - Bin2Dec </h1>
+        <p>Pagina para pratica de programação, proposta para treino de desenvolvimento.</p>
+        <p>Site com todas ideias de proposta de treino em <a href="https://github.com/florinpop17/app-ideas" target="_blank">florinpop17/app-ideas</a></p>    
+    </div>
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-sm-9">
+                <h3>luzes</h3>
+                <div class="row">
+                  <div>
+                    <h3>ChrismasLights</h3>
+                  </div>
+                  
+                  <div id="light1" class="light" >1</div>    
+                  <div id="light2" class="light" >2</div>    
+                  <div id="light3" class="light" >3</div>    
+                  <div id="light4" class="light" >4</div>    
+                  <div id="light5" class="light" >5</div>    
+                  <div id="light6" class="light" >6</div>    
+                  <div id="light7" class="light" >7</div>    
+                  
+                  
+              </div>
+            </div>
+            <div class="col-sm-3">
+                <h3>controle:</h3>
+                <input type="button" onclick="liga()" value="liga" />
+                <input type="button" onclick="desliga()" value="desliga" />
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+          <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
+        </div>
+    </footer>
+</body>
+</html>

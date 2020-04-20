@@ -1,25 +1,43 @@
-<html >
+<html>
 <head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Tec Radar - Marco Aurelioo</title>
+      <meta http-equiv="Content-type" content="text/html; charset=utf-8">  
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
 
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-    <!-- Latest compiled JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="./js/bootstrap.min.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-161848228-1');
+        </script>
+        <script type="text/javascript" src="./js/lib/protovis-3.2/protovis-d3.2.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/utils.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/lib/lodash.underscore.min.js"></script>
+        <script type="text/javascript" charset="utf-8" src="./js/radars/radarData.js"></script>
+        <style type="text/css" media="screen">
+  
+#fig {
+  height: 1000px;
+  width: 1200px;
+}
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-161848228-1');
-    </script>
+</style>
+<script type="text/javascript" src="./js/radar.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+
+</script>
+
 </head>
-<body>
 
+<body onload="init(h,w);" >
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -30,10 +48,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Tec Radar <span class="sr-only">(atual)</span></a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="./tec-radar.html">Tec Radar</a>
+            <a class="nav-link" href="./index.html">Home</a>
             </li>
             <li class="nav-item">
             <a class="nav-link disabled" href="#">Projetos e estudo</a>
@@ -43,22 +61,13 @@
     </nav>
 </header>
 <div class="jumbotron text-center">
-<h1>Pagina portifolio</h1>
-<p>Este site destina-se a listar testes e tambem como repositorio de informações que acho relevante para ser apresentada.</p>
+<h1>Pagina Tec-Radar</h1>
+<p>Tech radar pessoal. (Em construção)</p>
 </div>
-
-<div class="container">
-    <div class="row">
-        <h1>
-            Em construção!
-        </h1>
-    </div>
-
+<h1 id="title" style="text-align: center;"></h1>
+<div id="radar"></div>
+<div>
+<p></p>
 </div>
-<footer class="footer">
-    <div class="container">
-      <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
-    </div>
-</footer>
 </body>
 </html>

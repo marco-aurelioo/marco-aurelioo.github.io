@@ -1,13 +1,13 @@
 <html >
 <head>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
     <script>
@@ -17,10 +17,6 @@
         gtag('config', 'UA-161848228-1');
     </script>
     <style >
-        @media (max-width: 700px) {
-            .mediaimg{display: none;}
-            .btn-toggle{display: block;}
-        }
 
         .imageside
         { 
@@ -36,8 +32,9 @@
             border-top-right-radius: 150px;
              border-bottom-right-radius: 150px;
               border-bottom-left-radius: 150px; }
-
     </style>
+
+
 </head>
 <body>
 
@@ -71,51 +68,62 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-8">
-            <p></p>
-            <h4>Posts - Aprendizado</h4>
-            <ul>
-                <li></li>
-            </ul>
+            <h3>Desafio de programação</h3>
+            <p>Criei esta pagina para treinar desenvolvimento, tenho como uma das maiores paixões o desenvolvimento, 
+                não me cosidero um expert em nenhuma linguagem mas um curioso de diversos aspectos sobre arquitetura e desenvolvimento de software
+            </p>
+            <p>
+                Peguei esta lista em <a href="https://github.com/florinpop17/app-ideas" target="_blank" /> florinpop17/app-ideas </a>
+            , acredito que é um ótimo laboratorio para quem quer se desafiar.</p>
         </div>
-        <div class="col-sm-2 mediaimg ">
-            <img src="img/projetos-ideias-prog.jpg" width="300" height="300" >
-        </div>        
+        <div class="col-sm-4">
+            <div class="imageside" >
+                <img  class="imageside" src="../img/dev-prog.jpg" width="200" height="200" />
+            </div>
+        </div>
     </div>
     <div class="row">
-        <div class="col-sm-4 mediaimg">
-            <img src="img/Melhores-Sites-Para-Assistir-Videos-Online.jpg"  class="img-fluid"/>
-        </div>
-        <div class="col-sm-6">
-            <h3>Canais interessantes youtube</h3>
-            <p>Referencia de canais interessantes no youtube que sigo para buscar conhecimento em diversos aspectos.</p>
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>Titulo</th>
-                        <th>Descrição</th>
-                        <th>link</th>
-                    </tr>
+                  <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Dificuldade</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Observação</th>
+                    <th scope="col">link</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td> Rem Zolotykh</td>
-                        <td>Full Stack javascript, videos sobre frameworks e diversos tutoriais.</td>
-                        <td><a href="https://www.youtube.com/channel/UCsvMopMspsGw89AWim0FMfw" >veja</a></td>
-                    </tr>
-                    <tr>
-                        <td>Programação dinamica</td>
-                        <td>Videos didaticos sobre data science e algoritmos.</td>
-                        <td><a href="https://www.youtube.com/channel/UC70mr11REaCqgKke7DPJoLg" >veja</a></td>
-                    </tr>
-                    <tr>
-                        <td>Filipe Deschamps</td>
-                        <td>Videos diversos sobre desenvolvimento, tecnologia e curiosidades.</td>
-                        <td><a href="https://krogercode.wordpress.com/" >veja</a></td>
-                    </tr>
+                  <tr>
+                    <th scope="row">Bin2Dec</th>
+                    <td>Conversor binario para decimal.</td>
+                    <td>Facil</td>
+                    <td>Concluido</td>
+                    <td>Criei uma pagina html com javascript o mais puro possivel para criar uma simples função de conversão.</td>
+                    <td><a href="./Bin2Dec.html">veja</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Border-Radius-Previewer</th>
+                    <td>Ferramenta para preview de css para border-radius.</td>
+                    <td>Facil</td>
+                    <td>Concluido</td>
+                    <td>Utilizei uma pagina com javascript para aplicar e apresentar o resultado dos valores ajustados.</td>
+                    <td><a href="./Bin2Dec.html">veja</a></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Calculator</th>
+                    <td>Calculadora simples online.</td>
+                    <td>Facil</td>
+                    <td>Concluido</td>
+                    <td>Criei uma apresentação de calculadora em javascript o mais simples possivel.</td>
+                    <td><a href="./Bin2Dec.html">veja</a></td>
+                  </tr>
                 </tbody>
-            </table>
-        </div>
+              </table>
+       
     </div>
+
 </div>
 <footer class="footer">
     <div class="container">

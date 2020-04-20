@@ -15,6 +15,67 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'UA-161848228-1');
+
+        jQuery.support.cors = true;
+
+        function getURLData(url_git){
+            var resposta = {};
+            $.ajax({
+                url: url_git,
+                type: "GET",
+                timeout: 30000,
+                async: false,
+                dataType: "json", 
+                success: function(data) {
+                    
+                    resposta = data;
+
+                },
+                error: function(jqXHR, textStatus, ex) {
+                    alert(textStatus + "," + ex + "," + jqXHR.responseText);
+                    resposta = {fail:true};
+                }
+            });
+            return resposta;
+
+        }       
+
+        function getProfileGit(userName){
+            let url_site = "https://api.github.com/search/repositories?q=user:"+userName+"&sort=stars&order=desc"
+            var data = getURLData(url_site);
+            
+            data.items.
+                forEach(getLanguages);
+
+            console.log(tec_languages);
+            tec_languages.forEach(reduceKeys)
+
+        }
+
+        var tec_languages = [];
+        function reduceKeys(item,idx){
+            console.log(item);
+            console.log(sum(item));
+            
+        }
+
+        function sum( obj ) {
+            var sum = 0;
+            for( var el in obj ) {
+                if( obj.hasOwnProperty( el ) ) {
+                    sum += parseFloat( obj[el] );
+                }
+            }
+            return sum;
+        }
+
+        function getLanguages(item,idx){
+            
+            var languages = getURLData(item.languages_url);
+            const map = new Map(Object.entries(languages));
+            tec_languages.push(languages);
+        }
+        
     </script>
     <style >
         @media (max-width: 700px) {
@@ -69,53 +130,7 @@
 </div>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <p></p>
-            <h4>Posts - Aprendizado</h4>
-            <ul>
-                <li></li>
-            </ul>
-        </div>
-        <div class="col-sm-2 mediaimg ">
-            <img src="img/projetos-ideias-prog.jpg" width="300" height="300" >
-        </div>        
-    </div>
-    <div class="row">
-        <div class="col-sm-4 mediaimg">
-            <img src="img/Melhores-Sites-Para-Assistir-Videos-Online.jpg"  class="img-fluid"/>
-        </div>
-        <div class="col-sm-6">
-            <h3>Canais interessantes youtube</h3>
-            <p>Referencia de canais interessantes no youtube que sigo para buscar conhecimento em diversos aspectos.</p>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Titulo</th>
-                        <th>Descrição</th>
-                        <th>link</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> Rem Zolotykh</td>
-                        <td>Full Stack javascript, videos sobre frameworks e diversos tutoriais.</td>
-                        <td><a href="https://www.youtube.com/channel/UCsvMopMspsGw89AWim0FMfw" >veja</a></td>
-                    </tr>
-                    <tr>
-                        <td>Programação dinamica</td>
-                        <td>Videos didaticos sobre data science e algoritmos.</td>
-                        <td><a href="https://www.youtube.com/channel/UC70mr11REaCqgKke7DPJoLg" >veja</a></td>
-                    </tr>
-                    <tr>
-                        <td>Filipe Deschamps</td>
-                        <td>Videos diversos sobre desenvolvimento, tecnologia e curiosidades.</td>
-                        <td><a href="https://krogercode.wordpress.com/" >veja</a></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <button onclick="getProfileGit('marco-aurelioo')" >getItens</button>
 </div>
 <footer class="footer">
     <div class="container">
