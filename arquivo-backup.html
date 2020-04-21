@@ -1,0 +1,41 @@
+
+
+//API gratuita de dicionario aberto
+function dicionario(){
+    var palavra = document.getElementById("teste").value;
+    console.log(palavra);
+    url = "https://api.dicionario-aberto.net/word/"+palavra;
+    var data = getURLData(url);
+    console.log(data.xml);
+    document.getElementById("Texto").innerHTML = data[0].xml;
+}
+<input type="text" id="teste" />
+    <button onclick="dicionario()" >buscar palavra</button>
+    <div id="Texto">
+
+    </div>
+//utilização jquery para efetuar requisições cross domain
+
+    jQuery.support.cors = true;
+//ajax jquery utilizando cache das requests no localStorage
+        function getURLData(url_git){
+            var resposta = JSON.parse(localStorage.getItem(url_git));
+            if(!resposta){
+                $.ajax({
+                    url: url_git,
+                    type: "GET",
+                    timeout: 30000,
+                    async: false,
+                    dataType: "json", 
+                    success: function(data) {
+                        resposta = data;
+                        localStorage.setItem(url_git,JSON.stringify(data));
+                    },
+                    error: function(jqXHR, textStatus, ex) {
+                        return {};
+                    }
+                });
+            }
+            return resposta;
+
+        }    
