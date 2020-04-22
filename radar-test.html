@@ -10,6 +10,18 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
+
+
+    <script type="text/javascript" src="js/lib/visjs/vis.js"></script>
+    <link rel="stylesheet" href="js/lib/visjs/vis-network.min.css">
+    <style type="text/css">
+    #mynetwork {
+      width: 600px;
+      height: 400px;
+      border: 1px solid lightgray;
+    }
+    </style>
+
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -17,6 +29,7 @@
         gtag('config', 'UA-161848228-1');
 
         jQuery.support.cors = true;
+       
         function getURLData(url_git){
             var resposta = JSON.parse(localStorage.getItem(url_git));
             if(!resposta){
@@ -68,7 +81,6 @@
             console.log(totais);
         }
 
-
         function getLanguages(item,idx){
             var languages = getURLData(item.languages_url);
             const map = new Map(Object.entries(languages));
@@ -82,11 +94,11 @@
         }
 
         function addProfile(userName){
-            
             if(document.getElementById("id_"+userName)){
                 console.log("ja existe");
                 return;
             }
+          
             var url_profile =" https://api.github.com/users/"+userName;
             var data = getURLData(url_profile);
             console.log(data);
@@ -94,32 +106,95 @@
                
                 var newProfile = document.createElement("div");
                 newProfile.setAttribute("id","id_"+userName);
+                
+                newProfile.classList.add("itemBusca");
 
                 var nameElement = document.createElement("h3");
                 nameElement.innerHTML = data.login;
 
                 var avatarElement = document.createElement("img");
                 avatarElement.src = data.avatar_url;
-
+                avatarElement.classList.add("imageside");
+                avatarElement.width = 100;
+                avatarElement.height = 100; 
+                
                 var bntCarregaGit = document.createElement("button");
-                bntCarregaGit.innerHTML = "carrega tendencias"
+                bntCarregaGit.innerHTML = "incluir"
                 bntCarregaGit.onclick = function(){
-                    getProfileGit(data.login);
+                    addToGraph(data.login);
+                }
+
+                var bntRemoveGit = document.createElement("button");
+                bntRemoveGit.innerHTML = "apagar"
+                bntRemoveGit.onclick = function(){
+                    var elementToRemove = document.getElementById("id_"+userName);
+                    document.getElementById("profiles").removeChild(elementToRemove);
                 }
 
                 newProfile.appendChild(nameElement);
                 newProfile.appendChild(avatarElement);
                 newProfile.appendChild(bntCarregaGit);
+                newProfile.appendChild(bntRemoveGit);
                 document.getElementById("profiles").appendChild(newProfile);
             }
         }
 
- 
+        function addToGraph(userName){
+
+
+        }
+
+
+
+
+
+  // create an array with nodes
+  var nodes = new vis.DataSet([
+    {id: 1, shape: 'circularImage', label: "marco-aurelioo", circularImage:"https://avatars0.githubusercontent.com/u/5507398?v=4"},
+    {id: 2, label: 'Node 2'},
+    {id: 3, label: 'Node 3'},
+    {id: 4, label: 'Node 4'},
+    {id: 5, label: 'Node 5'}
+  ]);
+
+  // create an array with edges
+  var edges = new vis.DataSet([
+    {from: 1, to: 3},
+    {from: 1, to: 2},
+    {from: 2, to: 4},
+    {from: 2, to: 5},
+    {from: 3, to: 3}
+  ]);
+
+  function createCanvas(){
+    // create a network
+    var container = document.getElementById('mynetwork');
+
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {
+        nodes: {
+            image: "https://avatars0.githubusercontent.com/u/5507398?v=4"
+        }
+
+    };
+    var network = new vis.Network(container, data, options);
+  }
+  
+
     </script>
     <style >
         @media (max-width: 700px) {
             .mediaimg{display: none;}
             .btn-toggle{display: block;}
+        }
+
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
         }
 
         .imageside
@@ -134,8 +209,50 @@
             -moz-border-radius-bottomleft: 150px; 
             border-top-left-radius: 150px; 
             border-top-right-radius: 150px;
-             border-bottom-right-radius: 150px;
-              border-bottom-left-radius: 150px; }
+            border-bottom-right-radius: 150px;
+            border-bottom-left-radius: 150px; 
+        }
+
+        .colbusca {
+            background-color: #62806B;
+            border:#3C8051 1px dotted;
+            color:#C4FFD7;
+            -webkit-border-top-left-radius: 15px; 
+            -webkit-border-top-right-radius: 15px; 
+            -webkit-border-bottom-right-radius: 15px; 
+            -webkit-border-bottom-left-radius: 15px; 
+            -moz-border-radius-topleft: 15px; 
+            -moz-border-radius-topright: 15px; 
+            -moz-border-radius-bottomright: 15px; 
+            -moz-border-radius-bottomleft: 15px; 
+            border-top-left-radius: 15px; 
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px; 
+            padding:20px;  
+            -ms-flex: 0 0 400px;
+            flex: 0 0 400px;
+        }
+        .itemBusca{
+            background-color: #C4FFD7;
+            border:#78FFA3 1px dotted;
+            color: #62806B;
+            -webkit-border-top-left-radius: 15px; 
+            -webkit-border-top-right-radius: 15px; 
+            -webkit-border-bottom-right-radius: 15px; 
+            -webkit-border-bottom-left-radius: 15px; 
+            -moz-border-radius-topleft: 15px; 
+            -moz-border-radius-topright: 15px; 
+            -moz-border-radius-bottomright: 15px; 
+            -moz-border-radius-bottomleft: 15px; 
+            border-top-left-radius: 15px; 
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+            border-bottom-left-radius: 15px; 
+            padding:20px;  
+            margin: 20px; 
+            width: 400px;
+        }
 
     </style>
 </head>
@@ -169,21 +286,36 @@
 </div>
 
 <div class="container">
-    
-    <div class="col-sm-2" >
-    
-        <button onclick="getProfileGit('lucasbemo')" >getItens</button>
-        <input type="text" id="usuario" />
-        <button onclick="findProfile()" >busca usuario</button>
-        <hr/>
-        <div id="profiles" >
-
-
+    <div class="row" >
+    <div class="colbusca" >
+        <div> 
+        <h4>Ver ligações</h4>
         </div>
-
+        <div class="input-group mb">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon2">https://github.com/</span>
+            </div>
+            <input type="text" class="form-control" id="usuario" aria-describedby="basic-addon3">
+            <div class="input-group-append">
+                <input type="image" alt="buscar" src="img/lupa.jpg" onclick="findProfile()" width="38" height="38"/>
+            </div>
+        </div>
+        
+        
+        <hr/>
+        <div class="row" id="profiles">
+            
+        </div>
+        
     </div>
-
-    
+    <div class="col-sm-6">
+        <div class="row" >
+        <button onclick="createCanvas()" >cria grafo</button>
+        
+        <div id="mynetwork"></div>
+    </div>
+    </div>
+</div>
     
 </div>
 <footer class="footer">
