@@ -1,68 +1,41 @@
 <html >
 <head>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Latest compiled JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
 
+    <!-- meu framework para utilizar o localstorage como cache de requisições -->
+    <script type="text/javascript" src="js/my-downloader.js"></script>
 
     <script type="text/javascript" src="js/lib/visjs/vis.js"></script>
     <link rel="stylesheet" href="js/lib/visjs/vis-network.min.css">
-    <style type="text/css">
-    #mynetwork {
-      width: 600px;
-      height: 400px;
-      border: 1px solid lightgray;
-    }
-    </style>
-
+    
     <script>
+        //analytics
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'UA-161848228-1');
-
-        jQuery.support.cors = true;
-       
-        function getURLData(url_git){
-            var resposta = JSON.parse(localStorage.getItem(url_git));
-            if(!resposta){
-                $.ajax({
-                    url: url_git,
-                    type: "GET",
-                    timeout: 30000,
-                    async: false,
-                    dataType: "json", 
-                    success: function(data) {
-                        resposta = data;
-                        localStorage.setItem(url_git,JSON.stringify(data));
-                    },
-                    error: function(jqXHR, textStatus, ex) {
-                        return {};
-                    }
-                });
-            }
-            return resposta;
-        }    
-
-        function clearLocalStore(){
-            localStorage.clear();
-        }
+        //
 
         var tec_languages = [];
         
         function getProfileGit(userName){            
             let url_site = "https://api.github.com/search/repositories?q=user:"+userName+"&sort=stars&order=desc"
+            var my_languages = []
             var data = getURLData(url_site);
             tec_languages = [];
-            data.items.
-                forEach(getLanguages);            
+            if(data.items){
+                data.items.
+                    forEach(getLanguages);            
+            }
             var totais = new Map();
             for(var i in tec_languages){
                 var key = i;
@@ -76,9 +49,12 @@
                     }else{
                         totais.set(sub_key,sub_val);
                     }
+                    if(!my_languages.includes(sub_key)){
+                        my_languages.push(sub_key);
+                    }
                 }
             }           
-            console.log(totais);
+            return my_languages;
         }
 
         function getLanguages(item,idx){
@@ -89,7 +65,6 @@
 
         function findProfile(){
             var profile = document.getElementById ("usuario").value;
-            console.log(profile);
             addProfile(profile);
         }
 
@@ -101,13 +76,13 @@
           
             var url_profile =" https://api.github.com/users/"+userName;
             var data = getURLData(url_profile);
-            console.log(data);
             if(data.login){
                
                 var newProfile = document.createElement("div");
                 newProfile.setAttribute("id","id_"+userName);
                 
-                newProfile.classList.add("itemBusca");
+                newProfile.classList.add("colBuscaItem");
+                newProfile.classList.add("itemFundoEscuro");
 
                 var nameElement = document.createElement("h3");
                 nameElement.innerHTML = data.login;
@@ -121,51 +96,72 @@
                 var bntCarregaGit = document.createElement("button");
                 bntCarregaGit.innerHTML = "incluir"
                 bntCarregaGit.onclick = function(){
-                    addToGraph(data.login);
-                }
-
-                var bntRemoveGit = document.createElement("button");
-                bntRemoveGit.innerHTML = "apagar"
-                bntRemoveGit.onclick = function(){
-                    var elementToRemove = document.getElementById("id_"+userName);
-                    document.getElementById("profiles").removeChild(elementToRemove);
+                    addToGraph(data.login, data.avatar_url);
                 }
 
                 newProfile.appendChild(nameElement);
                 newProfile.appendChild(avatarElement);
                 newProfile.appendChild(bntCarregaGit);
-                newProfile.appendChild(bntRemoveGit);
+                if(document.getElementById("profiles").firstChild){
+                    document.getElementById("profiles").removeChild(document.getElementById("profiles").firstChild);
+                }
                 document.getElementById("profiles").appendChild(newProfile);
+                
+            }else{
+                alert("não encontrado no github o usuario :'"+userName+"'");
             }
         }
 
-        function addToGraph(userName){
 
+        var cont_id = 0;
+        var languages_graph = [];
+        var languages_graph_id = [];
+        var userId =-1;
 
+        function addToGraph(userName,imgUrl){
+            var id = cont_id++;
+            this.nodes.add({id: id, shape: 'image', label: userName, image: imgUrl})
+            var my_lamguages = getProfileGit(userName);
+            userId = id;
+            my_lamguages.forEach(addLanguages);
+            userId = -1;
+            
+            var elementToRemove = document.getElementById("id_"+userName);
+            document.getElementById("profiles").removeChild(elementToRemove);
+            
+
+            if(!canvasExists){
+                createCanvas();
+                canvasExists = true;
+            }
+        }
+
+        function addLanguages(item,idx){
+            var index = languages_graph.indexOf(item);
+            if(index < 0){
+                var idLanguage = cont_id ++;
+                languages_graph.push(item);
+                languages_graph_id.push(idLanguage);
+                this.nodes.add({id: idLanguage, label: item})
+                this.edges.add( {from: userId, to: idLanguage});
+            }else{
+                this.edges.add( {from: userId, to: languages_graph_id[index]});
+            }
         }
 
 
-
-
-
-  // create an array with nodes
+  // create an array with nodes   {id: 1, shape: 'circularImage', label: "marco-aurelioo", circularImage:"https://avatars0.githubusercontent.com/u/5507398?v=4"},
+   
   var nodes = new vis.DataSet([
-    {id: 1, shape: 'circularImage', label: "marco-aurelioo", circularImage:"https://avatars0.githubusercontent.com/u/5507398?v=4"},
-    {id: 2, label: 'Node 2'},
-    {id: 3, label: 'Node 3'},
-    {id: 4, label: 'Node 4'},
-    {id: 5, label: 'Node 5'}
+  
   ]);
 
   // create an array with edges
   var edges = new vis.DataSet([
-    {from: 1, to: 3},
-    {from: 1, to: 2},
-    {from: 2, to: 4},
-    {from: 2, to: 5},
-    {from: 3, to: 3}
+  
   ]);
-
+   
+   var canvasExists = false;
   function createCanvas(){
     // create a network
     var container = document.getElementById('mynetwork');
@@ -175,10 +171,7 @@
         edges: edges
     };
     var options = {
-        nodes: {
-            image: "https://avatars0.githubusercontent.com/u/5507398?v=4"
-        }
-
+       
     };
     var network = new vis.Network(container, data, options);
   }
@@ -192,9 +185,10 @@
         }
 
         #mynetwork {
-            width: 600px;
-            height: 400px;
+            align-items: center;
+            align-content: center;
             border: 1px solid lightgray;
+            background-color: white;
         }
 
         .imageside
@@ -213,7 +207,21 @@
             border-bottom-left-radius: 150px; 
         }
 
-        .colbusca {
+        .colBuscaSize{
+            padding:20px;  
+            -ms-flex: 0 0 450px;
+            flex: 0 0 450px;
+            height: 340px;
+            margin: 0 20px;
+        }
+
+        .colBuscaItem{
+            padding:20px;  
+            margin: 20px; 
+            width: 380px;
+        }
+
+        .fundoEscuro {
             background-color: #62806B;
             border:#3C8051 1px dotted;
             color:#C4FFD7;
@@ -229,11 +237,9 @@
             border-top-right-radius: 15px;
             border-bottom-right-radius: 15px;
             border-bottom-left-radius: 15px; 
-            padding:20px;  
-            -ms-flex: 0 0 400px;
-            flex: 0 0 400px;
         }
-        .itemBusca{
+
+        .itemFundoEscuro{
             background-color: #C4FFD7;
             border:#78FFA3 1px dotted;
             color: #62806B;
@@ -249,9 +255,6 @@
             border-top-right-radius: 15px;
             border-bottom-right-radius: 15px;
             border-bottom-left-radius: 15px; 
-            padding:20px;  
-            margin: 20px; 
-            width: 400px;
         }
 
     </style>
@@ -280,48 +283,41 @@
         </div>
     </nav>
 </header>
-<div class="jumbotron text-center">
-<h1>Pagina portifolio</h1>
-<p>Este site destina-se a listar testes e tambem como repositorio de informações que acho relevante para ser apresentada.</p>
-</div>
+    <div class="jumbotron text-justify">
+        <h1>Grafo de tecnologia</h1>
+        <p>Esta pagina mostra como nos ligamos com outros desenvolvedores. Utilizei a API do github para visualizar nos projetos publicos de algumas pessoas e ver quais tecnologias (languages) nos conectam.</p>
+        <p>A ideia desta pagina é uma auto critica para ver no universo de tecnologias onde estou, quais temas ainda estão fora do meu radar, quem pode me ajudar em um tema que estou querendo aprender enfim ver o quanto estou fora do radar de tecnologias.</p>
+        <p>Também é uma provocação relacionada a quanto você expõe seus estudos e como você esta visivel para o mundo de tecnologia.</p>
+    </div>
 
-<div class="container">
-    <div class="row" >
-    <div class="colbusca" >
-        <div> 
-        <h4>Ver ligações</h4>
-        </div>
-        <div class="input-group mb">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon2">https://github.com/</span>
-            </div>
-            <input type="text" class="form-control" id="usuario" aria-describedby="basic-addon3">
-            <div class="input-group-append">
-                <input type="image" alt="buscar" src="img/lupa.jpg" onclick="findProfile()" width="38" height="38"/>
-            </div>
-        </div>
-        
-        
-        <hr/>
-        <div class="row" id="profiles">
-            
-        </div>
-        
-    </div>
-    <div class="col-sm-6">
-        <div class="row" >
-        <button onclick="createCanvas()" >cria grafo</button>
-        
-        <div id="mynetwork"></div>
-    </div>
-    </div>
-</div>
-    
-</div>
-<footer class="footer">
     <div class="container">
-      <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
+        <div class="row" >
+            <div class="colBuscaSize fundoEscuro" >
+                <h4>Buscar usuario no github.</h4>
+                <div class="input-group mb">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">https://github.com/</span>
+                    </div>
+                    <input type="text" class="form-control" id="usuario" aria-describedby="basic-addon3">
+                    <div class="input-group-append">
+                        <input type="image" alt="buscar" src="img/lupa.jpg" onclick="findProfile()" width="38" height="38"/>
+                    </div>
+                </div>
+                
+                <div class="row" id="profiles">
+                </div>
+            
+            </div>
+        </div>
+        <div class="row fundoEscuro m-2" >
+            <div id="mynetwork" class="col-sm m-3 "></div>
+        </div>
     </div>
-</footer>
+    
+    <footer class="footer">
+        <div class="container">
+        <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
+        </div>
+    </footer>
 </body>
 </html>
