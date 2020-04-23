@@ -16,6 +16,8 @@
 
     <script type="text/javascript" src="js/lib/visjs/vis.js"></script>
     <link rel="stylesheet" href="js/lib/visjs/vis-network.min.css">
+
+    <script type="text/javascript" src="js/myfriendsgraph.js" ></script>
     
     <script>
         //analytics
@@ -29,13 +31,14 @@
         
         function getProfileGit(userName){            
             let url_site = "https://api.github.com/search/repositories?q=user:"+userName+"&sort=stars&order=desc"
-            var my_languages = []
             var data = getURLData(url_site);
             tec_languages = [];
             if(data.items){
                 data.items.
                     forEach(getLanguages);            
             }
+
+            var my_languages = []
             var totais = new Map();
             for(var i in tec_languages){
                 var key = i;
@@ -58,8 +61,7 @@
         }
 
         function getLanguages(item,idx){
-            var languages = getURLData(item.languages_url);
-            const map = new Map(Object.entries(languages));
+            var languages = getURLData(item.languages_url);            
             tec_languages.push(languages);
         }
 
@@ -124,7 +126,7 @@
             var my_lamguages = getProfileGit(userName);
             userId = id;
             my_lamguages.forEach(addLanguages);
-            userId = -1;
+            
             
             var elementToRemove = document.getElementById("id_"+userName);
             document.getElementById("profiles").removeChild(elementToRemove);
@@ -150,30 +152,11 @@
         }
 
 
-  // create an array with nodes   {id: 1, shape: 'circularImage', label: "marco-aurelioo", circularImage:"https://avatars0.githubusercontent.com/u/5507398?v=4"},
-   
-  var nodes = new vis.DataSet([
-  
-  ]);
-
-  // create an array with edges
-  var edges = new vis.DataSet([
-  
-  ]);
-   
-   var canvasExists = false;
+  var canvasExists = false;
   function createCanvas(){
     // create a network
     var container = document.getElementById('mynetwork');
-
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
-    var options = {
-       
-    };
-    var network = new vis.Network(container, data, options);
+    createNetWork(container);
   }
   
 
@@ -189,6 +172,7 @@
             align-content: center;
             border: 1px solid lightgray;
             background-color: white;
+            height: 500px;
         }
 
         .imageside
@@ -271,13 +255,10 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(atual)</span></a>
+            <a class="nav-link" href="#">Home <span ></span></a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="./tec-radar.html">Tec Radar</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link disabled" href="#">Projetos e estudo</a>
+                <a class="nav-link disabled" href="#">Grafo de desenvolvedores</a>
             </li>
         </ul>
         </div>
@@ -285,9 +266,10 @@
 </header>
     <div class="jumbotron text-justify">
         <h1>Grafo de tecnologia</h1>
-        <p>Esta pagina mostra como nos ligamos com outros desenvolvedores. Utilizei a API do github para visualizar nos projetos publicos de algumas pessoas e ver quais tecnologias (languages) nos conectam.</p>
-        <p>A ideia desta pagina é uma auto critica para ver no universo de tecnologias onde estou, quais temas ainda estão fora do meu radar, quem pode me ajudar em um tema que estou querendo aprender enfim ver o quanto estou fora do radar de tecnologias.</p>
-        <p>Também é uma provocação relacionada a quanto você expõe seus estudos e como você esta visivel para o mundo de tecnologia.</p>
+        <p>Esta pagina mostra como nos ligamos com outros desenvolvedores.</p>
+        <p>Utilizei a API do github para visualizar nos projetos publicos de algumas pessoas e ver quais tecnologias (languages) as conectam.</p>
+        <p>A ideia desta pagina é para ver no universo de tecnologias onde estou, quais temas estão sendo abordados por outros desenvolvedores, quem pode me ajudar em um tema/skill que estou querendo aprender ou melhorar enfim ver o quanto estou fora do radar de tecnologias dos meus amigos.</p>
+        <p>Também é uma provocação relacionada a quanto você se expõe com seus testes e estudos, como você esta visivel para o mundo de tecnologia.</p>
     </div>
 
     <div class="container">
