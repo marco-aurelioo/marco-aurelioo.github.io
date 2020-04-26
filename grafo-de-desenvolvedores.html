@@ -28,7 +28,23 @@
         //
 
         var tec_languages = [];
-        
+
+        //inclui no grafo de relacionamento
+        function addToGraph(data){
+            //popula dados de languages do git no formato para colocar no grafico
+            //salva dados no tec_languages[]
+            getProfileGit(data.login);
+            //adiciona dados no grafo
+            addToNetWork(data,tec_languages);
+
+            var elementToRemove = document.getElementById("id_"+data.login);
+            if(elementToRemove){
+                document.getElementById("profiles").removeChild(elementToRemove);
+            }
+
+            startCanvas();
+        }
+
         function getProfileGit(userName){            
             let url_site = "https://api.github.com/search/repositories?q=user:"+userName+"&sort=stars&order=desc"
             var data = getURLData(url_site);
@@ -37,27 +53,6 @@
                 data.items.
                     forEach(getLanguages);            
             }
-
-            var my_languages = []
-            var totais = new Map();
-            for(var i in tec_languages){
-                var key = i;
-                var val = tec_languages[i];
-                for(var j in val){
-                    var sub_key = j;
-                    var sub_val = val[j];
-                    var sub_val_hist = totais.get(sub_key);
-                    if(sub_val_hist){
-                        totais.set(sub_key,Number(sub_val_hist)+Number(sub_val));
-                    }else{
-                        totais.set(sub_key,sub_val);
-                    }
-                    if(!my_languages.includes(sub_key)){
-                        my_languages.push(sub_key);
-                    }
-                }
-            }           
-            return my_languages;
         }
 
         function getLanguages(item,idx){
@@ -66,7 +61,7 @@
         }
 
         function findProfile(){
-            var profile = document.getElementById ("usuario").value;
+            var profile = document.getElementById ("usuario").value.toLowerCase();
             addProfile(profile);
         }
 
@@ -78,10 +73,10 @@
           
             var url_profile =" https://api.github.com/users/"+userName;
             var data = getURLData(url_profile);
-            if(data.login){
-               
+            
+            if(data && data.login){
                 var newProfile = document.createElement("div");
-                newProfile.setAttribute("id","id_"+userName);
+                newProfile.setAttribute("id","id_"+data.login);
                 
                 newProfile.classList.add("colBuscaItem");
                 newProfile.classList.add("itemFundoEscuro");
@@ -98,7 +93,7 @@
                 var bntCarregaGit = document.createElement("button");
                 bntCarregaGit.innerHTML = "incluir"
                 bntCarregaGit.onclick = function(){
-                    addToGraph(data.login, data.avatar_url);
+                    addToGraph(data);
                 }
 
                 newProfile.appendChild(nameElement);
@@ -115,46 +110,11 @@
         }
 
 
-        var cont_id = 0;
-        var languages_graph = [];
-        var languages_graph_id = [];
-        var userId =-1;
-
-        function addToGraph(userName,imgUrl){
-            var id = cont_id++;
-            this.nodes.add({id: id, shape: 'image', label: userName, image: imgUrl})
-            var my_lamguages = getProfileGit(userName);
-            userId = id;
-            my_lamguages.forEach(addLanguages);
-            
-            
-            var elementToRemove = document.getElementById("id_"+userName);
-            document.getElementById("profiles").removeChild(elementToRemove);
-            
-
-            if(!canvasExists){
-                createCanvas();
-                canvasExists = true;
-            }
-        }
-
-        function addLanguages(item,idx){
-            var index = languages_graph.indexOf(item);
-            if(index < 0){
-                var idLanguage = cont_id ++;
-                languages_graph.push(item);
-                languages_graph_id.push(idLanguage);
-                this.nodes.add({id: idLanguage, label: item})
-                this.edges.add( {from: userId, to: idLanguage});
-            }else{
-                this.edges.add( {from: userId, to: languages_graph_id[index]});
-            }
-        }
+       
+       
 
 
-  var canvasExists = false;
-  function createCanvas(){
-    // create a network
+  function startCanvas(){
     var container = document.getElementById('mynetwork');
     createNetWork(container);
   }
