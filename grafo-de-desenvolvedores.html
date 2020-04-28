@@ -16,7 +16,9 @@
 
     <script type="text/javascript" src="js/lib/visjs/vis.js"></script>
     <link rel="stylesheet" href="js/lib/visjs/vis-network.min.css">
-
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
+   
     <script type="text/javascript" src="js/myfriendsgraph.js" ></script>
     
     <script>
@@ -36,7 +38,7 @@
             getProfileGit(data.login);
             //adiciona dados no grafo
             addToNetWork(data,tec_languages);
-
+            addCloudWord(data,tec_languages);
             var elementToRemove = document.getElementById("id_"+data.login);
             if(elementToRemove){
                 document.getElementById("profiles").removeChild(elementToRemove);
@@ -109,17 +111,67 @@
             }
         }
 
+        function startCanvas(){
+            var container = document.getElementById('mynetwork');
+            createNetWork(container);
+        }
 
-       
-       
 
+        var dataWord = [];
 
-  function startCanvas(){
-    var container = document.getElementById('mynetwork');
-    createNetWork(container);
-  }
-  
+        function addCloudWord(data,tec_languages){
+            //{"x": "language", "value": values, category: "data.login"},
+            // create a tag (word) cloud chart
+            document.getElementById("cloud").innerHTML = "";
+            createWord(tec_languages);
+            var chart = anychart.tagCloud(dataWord);
+            chart.title("Linguagens por relevancia")
+            chart.angles([0])
+            chart.colorRange(true);
+            chart.colorRange().length('80%');
+            chart.container("cloud");
+            chart.draw();
+        }
 
+        var wordsOnCloud = [];
+        var wordsOnCloud_value = []
+
+        function createWord(words){
+            var my_rel = []
+            for(var i in words){
+                var val = words[i];
+                for(var j in val){
+                    var sub_key = j;
+                    var value = val[j];
+                    var idx_rel = wordsOnCloud.indexOf(sub_key);
+                    if(idx_rel < 0){
+                        pushNewWord(sub_key,value);
+                        wordsOnCloud.push(sub_key);
+                        wordsOnCloud_value.push(value);
+                    }else{
+                        console.log("update")
+                        updateWord(sub_key,value,idx_rel);
+
+                    }
+                    
+                }
+            } 
+        }
+
+        function pushNewWord(word,value){
+            console.log(word+":"+value);
+            dataWord.push({"x" : word, "value" : value});
+        }
+
+        function updateWord(key,valor,idx){
+            console.log(key+":"+valor);
+            dataWord.filter(function (item,idx,arr){
+                if(item.x == key){
+                    console.log("novo valor:"+(item.value + valor));
+                    dataWord[idx] = ({"x" : key, "value" : (item.value + valor)});
+                }
+            })
+        }
     </script>
     <style >
         @media (max-width: 700px) {
@@ -230,6 +282,7 @@
         <p>Utilizei a API do github para visualizar nos projetos publicos de algumas pessoas e ver quais tecnologias (languages) as conectam.</p>
         <p>A ideia desta pagina é para ver no universo de tecnologias onde estou, quais temas estão sendo abordados por outros desenvolvedores, quem pode me ajudar em um tema/skill que estou querendo aprender ou melhorar enfim ver o quanto estou fora do radar de tecnologias dos meus amigos.</p>
         <p>Também é uma provocação relacionada a quanto você se expõe com seus testes e estudos, como você esta visivel para o mundo de tecnologia.</p>
+    
     </div>
 
     <div class="container">
@@ -250,6 +303,7 @@
                 </div>
             
             </div>
+            <div class="col-sm" id="cloud"></div>
         </div>
         <div class="row fundoEscuro m-2" >
             <div id="mynetwork" class="col-sm m-3 "></div>
