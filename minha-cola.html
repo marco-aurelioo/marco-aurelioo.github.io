@@ -1,0 +1,113 @@
+<html >
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161848228-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-161848228-1');
+    </script>
+    <style >
+        @media (max-width: 700px) {
+            .mediaimg{display: none;}
+            .btn-toggle{display: block;}
+        }
+
+        .imageside
+        { 
+            -webkit-border-top-left-radius: 150px; 
+            -webkit-border-top-right-radius: 150px; 
+            -webkit-border-bottom-right-radius: 150px; 
+            -webkit-border-bottom-left-radius: 150px; 
+            -moz-border-radius-topleft: 150px; 
+            -moz-border-radius-topright: 150px; 
+            -moz-border-radius-bottomright: 150px; 
+            -moz-border-radius-bottomleft: 150px; 
+            border-top-left-radius: 150px; 
+            border-top-right-radius: 150px;
+             border-bottom-right-radius: 150px;
+              border-bottom-left-radius: 150px; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="#">Portifolio de projetos e estudo.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+            <a class="nav-link" href="#">Minha cola <span class="sr-only">(atual)</span></a>
+            </li>
+        </ul>
+        </div>
+    </nav>
+</header>
+<div class="jumbotron text-center">
+<h1>Marco Aurélio</h1>
+<p>Comandos comuns para algumas ferramentas.</p>
+</div>
+
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-sm-8">
+            <h4>Docker</h4>
+            <p>Comandos basicos para criar publicar uma imagem docker .</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Comando</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>docker images list</td>
+                        <td>Lista todas imagens disponiveis no seu comutador.</td>
+                    </tr>
+                    <tr>
+                        <td>docker build -t </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-2 mediaimg ">
+            <img src="img/projetos-ideias-prog.jpg" width="300" height="300" >
+        </div>        
+    </div>
+    <div class="row mt-2">
+        <div class="row">
+            <h4>Frases</h4>
+        </div>
+        <div class="row">
+            <p class="font-italic" >Faça da sua vida mais "Responsivo" - Dica para Programadores de Sistemas. </p>
+            <p>"Luana Monteiro" </p>
+            <p class="font-italic" >É genial festejar o sucesso, mas é mais importante aprender com as lições do fracasso. </p>
+            <p>"Bill Gates"</p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+            
+    <div class="container">
+      <span class="text-muted">contato: marco_aurelioo@yahoo.com.br </span>
+    </div>
+</footer>
+</body>
+</html>
